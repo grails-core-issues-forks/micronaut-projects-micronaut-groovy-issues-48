@@ -12,12 +12,14 @@ group "example.micronaut"
 repositories {
     mavenCentral()
     maven { url "https://jcenter.bintray.com" }
+    maven { url "https://repo.grails.org/grails/core" }
 }
 
 configurations {
     // for dependencies that are needed for development only
     developmentOnly 
 }
+
 
 dependencies {
     annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
@@ -28,7 +30,10 @@ dependencies {
     implementation "io.micronaut:micronaut-runtime-groovy"
     implementation "io.micronaut:micronaut-validation"
     implementation "io.micronaut:micronaut-http-client"
-    implementation "io.micronaut.configuration:micronaut-mongo-gorm"
+    implementation("io.micronaut.configuration:micronaut-mongo-gorm") {
+        exclude(group: "org.grails", module: 'grails-datastore-core')
+    }
+    implementation "org.grails:grails-datastore-core:7.0.5.BUILD-SNAPSHOT"
     implementation "io.micronaut:micronaut-http-server-netty"
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
     testCompileOnly platform("io.micronaut:micronaut-bom:$micronautVersion")
